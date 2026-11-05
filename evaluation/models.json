@@ -1,0 +1,15 @@
+{
+  "aris": {"model": "MimicAgent", "api_format": "openai"},
+  "internvl2.5-8b": {"model": "InternVL2_5-8B", "api_format": "openai"},
+  "internvl2.5-26b": {"model": "InternVL2_5-26B", "api_format": "openai"},
+  "qwen2.5-vl-7b": {"model": "Qwen2.5-VL-7B-Instruct", "api_format": "openai"},
+  "qwen2.5-vl-32b": {"model": "Qwen2.5-VL-32B-Instruct", "api_format": "openai"},
+  "qwen3-vl-8b": {"model": "Qwen3-VL-8B-Instruct", "api_format": "openai"},
+  "qwen3-vl-30b": {"model": "Qwen3-VL-30B-A3B-Instruct", "api_format": "openai"},
+  "gpt-5-mini": {"model": "gpt-5-mini", "api_format": "openai", "base_url": "https://api.openai.com/v1"},
+  "gpt-5.2": {"model": "gpt-5.2", "api_format": "openai", "base_url": "https://api.openai.com/v1"},
+  "claude-haiku-4.5": {"model": "claude-haiku-4-5", "api_format": "anthropic", "base_url": "https://api.anthropic.com"},
+  "claude-sonnet-4.5": {"model": "claude-sonnet-4-5", "api_format": "anthropic", "base_url": "https://api.anthropic.com"},
+  "gemini-2.5-flash": {"model": "gemini-2.5-flash", "api_format": "openai", "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/"},
+  "gemini-3-flash": {"model": "gemini-3-flash-preview", "api_format": "openai", "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/"}
+}

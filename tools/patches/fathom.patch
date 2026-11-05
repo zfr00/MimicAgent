@@ -1,0 +1,76 @@
+diff --git a/serving/web_agents/compressor.py b/serving/web_agents/compressor.py
+index 751030b..c05760e 100644
+--- a/serving/web_agents/compressor.py
++++ b/serving/web_agents/compressor.py
+@@ -23,14 +23,19 @@ _tok = lambda s: len(enc.encode(s))  # fast inline counter
+ @functools.lru_cache(maxsize=1)
+ def _nlp():
+     import spacy
+-    return spacy.load("en_core_web_sm")
++    try:
++        return spacy.load("en_core_web_sm")
++    except OSError:
++        nlp = spacy.blank("en")
++        nlp.add_pipe("sentencizer")
++        return nlp
+ 
+ 
+ def _openai_client():
+     """Import OpenAI lazily to avoid overhead when not needed."""
+     import importlib
+     mod = importlib.import_module("openai")
+-    return getattr(mod, "OpenAI", None)() if hasattr(mod, "OpenAI") else mod
++    return mod.OpenAI(timeout=float(os.getenv("WEB_LLM_TIMEOUT", "60")), max_retries=0) if hasattr(mod, "OpenAI") else mod
+ 
+ 
+ # ────────────────────────────────────────────────────────────────────────
+@@ -218,7 +223,7 @@ def _summarise(text: str, pct: float, model: str) -> str:
+     if _is_openai_model(model):
+         client = _openai_client()
+         rsp = client.chat.completions.create(
+-            model=model, temperature=0.2,
++            model=model.split(":", 1)[-1], temperature=0.2,
+             messages=[{"role": "system", "content": sys_prompt},
+                       {"role": "user", "content": text}],
+             max_tokens=CFG.output_limit_per_link
+diff --git a/serving/web_agents/fetchers_async.py b/serving/web_agents/fetchers_async.py
+index d8defe4..ec9114f 100644
+--- a/serving/web_agents/fetchers_async.py
++++ b/serving/web_agents/fetchers_async.py
+@@ -82,14 +82,22 @@
+ 
+ import asyncio, logging, time
+ 
+-from fetchers.pdf_fetcher     import fetch_pdf
+ from fetchers.youtube_fetcher import fetch_youtube
+ from fetchers.reddit_fetcher  import fetch_reddit
+ from fetchers.github_fetcher  import fetch_github
+ from fetchers.jina_fetcher    import fetch_jina
+-from fetchers.crawl4ai_fetcher import fetch_crawl4ai
+ from fetchers.basic_fetcher   import fetch_html
+ 
++
++def fetch_pdf(url):
++    from fetchers.pdf_fetcher import fetch_pdf as fetch
++    return fetch(url)
++
++
++async def fetch_crawl4ai(url):
++    from fetchers.crawl4ai_fetcher import fetch_crawl4ai as fetch
++    return await fetch(url)
++
+ _ERR_PREFIXES = ("[error", "[failed", "[unable]")
+ 
+ def _looks_error(txt: str | None) -> bool:
+diff --git a/serving/web_agents/fetchers/jina_fetcher.py b/serving/web_agents/fetchers/jina_fetcher.py
+--- a/serving/web_agents/fetchers/jina_fetcher.py
++++ b/serving/web_agents/fetchers/jina_fetcher.py
+@@ -53,7 +53,7 @@
+ Jina AI powered web-page fetcher with URL-based disk cache.
+ 
+ - Cache key: canonicalized URL (sha256)
+-- Cache location: <CFG.cache_dir or $CACHE_DIR or ".cache">/jina_read/
++- Cache location: <CFG.jina_cache_dir>/jina_read/ (configured by JINA_CACHE_DIR).
+ - Always stores the *raw* Jina body (without the "[Retrieved...]" prefix).
+ - Atomic writes via os.replace for basic thread/process safety.
+ """

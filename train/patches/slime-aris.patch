@@ -1,0 +1,36 @@
+diff --git a/slime/backends/megatron_utils/data.py b/slime/backends/megatron_utils/data.py
+index 51b008d1..d62a9c15 100644
+--- a/slime/backends/megatron_utils/data.py
++++ b/slime/backends/megatron_utils/data.py
+@@ -291,6 +291,7 @@ def log_rollout_data(
+                 "num_microbatches",
+                 "micro_batch_indices",
+                 "source_names",
++                "metadata",
+             ]:
+                 continue
+             # Emit (sum, count) so gather_log_data can do a weighted average across
+diff --git a/slime/backends/megatron_utils/model.py b/slime/backends/megatron_utils/model.py
+index 1ad6cd79..2d7e1cce 100644
+--- a/slime/backends/megatron_utils/model.py
++++ b/slime/backends/megatron_utils/model.py
+@@ -589,6 +589,7 @@ def train_one_step(
+                     "ref_log_probs",
+                     "values",
+                     "advantages",
++                    "metadata",
+                     "returns",
+                     "rollout_log_probs",
+                     "teacher_log_probs",
+diff --git a/slime/ray/rollout.py b/slime/ray/rollout.py
+index 8ef7a0c2..3391a373 100644
+--- a/slime/ray/rollout.py
++++ b/slime/ray/rollout.py
+@@ -866,6 +866,7 @@ class RolloutManager:
+                 "loss_masks",
+                 "round_number",
+                 "sample_indices",
++                "metadata",
+                 "rollout_ids",
+                 "rollout_mask_sums",
+                 "rollout_log_probs",

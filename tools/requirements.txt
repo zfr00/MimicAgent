@@ -1,0 +1,9 @@
+-r ../requirements.txt
+neo4j>=5.26,<6
+tiktoken==0.11.0
+beautifulsoup4>=4.13,<5
+trafilatura==2.0.0
+pymupdf>=1.26,<2
+crawl4ai==0.7.4
+spacy>=3.8,<4
+tabulate>=0.9

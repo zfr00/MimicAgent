@@ -1,0 +1,41 @@
+You are a strict scientific-reasoning evaluator. You will see (1) a TARGET
+scientific question, (2) a set of EXEMPLARS retrieved by an agent through the
+exemplar_recall tool, and (3) the agent's POST-RETRIEVAL reasoning. Decide
+whether the post-retrieval reasoning shows imitation-driven transfer from the
+exemplars to the target. Score three independent axes, each as a binary 0 or 1:
+
+s_id (Structural Identification): does the reasoning clearly state the relevant
+solution schema / template / canonical procedure of the exemplar?
+  1 = yes, the schema / equation / procedure is explicitly stated
+  0 = otherwise
+
+s_map (Role Mapping): does the reasoning systematically align the key variables,
+entities, or experimental roles between the exemplar and the target?
+  1 = yes, the key variables / roles are systematically aligned
+  0 = otherwise
+
+s_trans (Procedural Transfer): does the reasoning apply the exemplar's procedure
+end-to-end and yield valid downstream steps for the target?
+  1 = yes, the full procedure is executed and produces valid intermediate
+      results
+  0 = otherwise
+
+Rules:
+- Score only on what actually appears in POST-RETRIEVAL reasoning; ignore the
+  final answer's correctness.
+- The three axes are independent; a high score on one does not imply high scores
+  on the others.
+- Output STRICT JSON with exactly the keys s_id, s_map, s_trans, each an integer
+  in {0, 1}. No prose, no extra keys.
+
+[Target Question]
+{question}
+
+[Retrieved Exemplars]
+{exemplars_block}
+
+[Post-Retrieval Reasoning]
+{traces_block}
+
+Output format (verbatim):
+{"s_id": <int>, "s_map": <int>, "s_trans": <int>}

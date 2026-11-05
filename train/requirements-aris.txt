@@ -1,0 +1,13 @@
+# Install into an already working slime/Megatron/SGLang GPU environment.
+aiohttp>=3.9,<4
+jsonschema>=4
+openai>=1.60,<4
+requests
+fastapi
+uvicorn
+pillow
+pydantic>=2,<3
+scipy
+sympy
+matplotlib
+pandas
