@@ -1,4 +1,3 @@
-"""Shared executor authentication for training, evaluation and health checks."""
 import os
 
 

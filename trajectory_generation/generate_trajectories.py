@@ -1,13 +1,3 @@
-"""CLI entry-point: produce demonstration trajectories for SciExplore-Bench.
-
-Reads a SciExplore-Bench-formatted JSONL (see the root ``README.md``), runs the
-teacher agent on each problem, and writes one JSONL trajectory per line.
-
-Each output line records the question, reference, assistant/tool turns,
-final answer, and interaction count. Training draws its teachers online
-in train/aris/rollout.py.
-"""
-
 from __future__ import annotations
 
 import argparse

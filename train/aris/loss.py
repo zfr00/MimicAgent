@@ -30,7 +30,7 @@ def loss_function(args, batch, logits, sum_of_sample_mean):
     if args.calculate_per_token_loss:
         raise ValueError("Invalid loss reduction: calculate_per_token_loss=True")
     if not batch.get("metadata"):
-        raise RuntimeError("Missing ARIS metadata: apply train/patches/slime-aris.patch")
+        raise RuntimeError("Missing ARIS metadata: use the bundled train/slime sources")
     meta = batch["metadata"]
     branches = {m["aris_branch"] for m in meta}
     if not branches <= {"grpo", "imitation", "discard"}:

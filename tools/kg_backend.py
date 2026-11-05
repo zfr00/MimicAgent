@@ -1,5 +1,3 @@
-"""ATLAS-Wiki full-text entity matching, multi-hop traversal and bilingual filtering.
-"""
 from contextlib import asynccontextmanager
 import asyncio
 from dataclasses import dataclass
